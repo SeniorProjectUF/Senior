@@ -14,7 +14,6 @@ public class TimeManipulation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        print(elapsedTime);
         if (Input.GetKey(KeyCode.LeftArrow))
             elapsedTime -= timeStep;
         if (Input.GetKey(KeyCode.RightArrow))
