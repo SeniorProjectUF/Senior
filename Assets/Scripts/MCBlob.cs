@@ -538,11 +538,11 @@ public class MCBlob : MonoBehaviour
     {
         lt = 0f;
         blobs = new float[5][];
-        blobs[0] = new float[] { .16f, .26f, .16f, .13f };
-        blobs[1] = new float[] { .13f, -.134f, .35f, .12f };
-        blobs[2] = new float[] { -.18f, .125f, -.25f, .16f };
-        blobs[3] = new float[] { -.13f, .23f, .255f, .13f };
-        blobs[4] = new float[] { -.18f, .125f, .35f, .12f };
+        blobs[0] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
+        blobs[1] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
+        blobs[2] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
+        blobs[3] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
+        blobs[4] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
 
         isoLevel = 1.95f;
 
