@@ -22,10 +22,6 @@ public class ParticlePosition : MonoBehaviour {
 
 		time = timeMan.elapsedTime;
 
-		print (calculatePositionWithPolyAndTime(xPosPoly, time));
-		print (calculatePositionWithPolyAndTime(yPosPoly, time));
-		print (calculatePositionWithPolyAndTime(zPosPoly, time));
-
 		transform.position = new Vector3(calculatePositionWithPolyAndTime(xPosPoly, time), calculatePositionWithPolyAndTime(yPosPoly, time), calculatePositionWithPolyAndTime(zPosPoly, time));
 
 	}
