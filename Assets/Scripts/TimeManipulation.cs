@@ -30,7 +30,7 @@ public class TimeManipulation : MonoBehaviour {
 		if (Input.GetKey (KeyCode.LeftArrow)) {
 			isPlaying = false;
 			elapsedTime -= timeStep * timeMultiplier;
-		}
+        }
 		if (Input.GetKey (KeyCode.RightArrow)) {
 			isPlaying = false; 
 			elapsedTime += timeStep * timeMultiplier;
@@ -42,6 +42,27 @@ public class TimeManipulation : MonoBehaviour {
 			timeMultiplier = timeMultiplier / 2 >= 0.25f ? timeMultiplier / 2 : timeMultiplier;
 		}
 
-		playerStateText.text = (isPlaying ? "Play   " : "Pause   ") + timeMultiplier + "x";
+        foreach (GameObject proton in GameObject.FindGameObjectsWithTag("Proton")) {
+            if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime >= proton.GetComponent<ParticlePosition>().disappearAfter) {
+                proton.GetComponent<Renderer>().enabled = false;
+            }
+            else if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime < proton.GetComponent<ParticlePosition>().disappearAfter) {
+                proton.GetComponent<Renderer>().enabled = true;
+            }
+        }
+
+        foreach (GameObject particle in GameObject.FindGameObjectsWithTag("Particle"))
+        {
+            if (particle.GetComponent<ParticlePosition>().shouldAppear && elapsedTime >= particle.GetComponent<ParticlePosition>().appearAfter)
+            {
+                particle.GetComponent<Renderer>().enabled = true;
+            }
+            else if (particle.GetComponent<ParticlePosition>().shouldAppear && elapsedTime < particle.GetComponent<ParticlePosition>().appearAfter)
+            {
+                particle.GetComponent<Renderer>().enabled = false;
+            }
+        }
+
+        playerStateText.text = (isPlaying ? "Play   " : "Pause   ") + timeMultiplier + "x";
     }
 }
