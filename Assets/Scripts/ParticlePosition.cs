@@ -7,8 +7,12 @@ public class ParticlePosition : MonoBehaviour {
 	public float[] xPosPoly;
 	public float[] yPosPoly;
 	public float[] zPosPoly;
+    public float disappearAfter = 0.0f;
+    public bool shouldDisappear = false;
+    public float appearAfter = 0.0f;
+    public bool shouldAppear = false;
 
-	private TimeManipulation timeMan;
+    private TimeManipulation timeMan;
 	private float time;
 
 	// Use this for initialization
