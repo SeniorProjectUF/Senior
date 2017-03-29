@@ -51,3 +51,8 @@ Thumbs.db
 # ======================================= #
 
 sysinfo.txt
+
+# ============== #
+# Custom Ignores #
+# ============== #
+/Assets/Model/CMS\ Model/*
