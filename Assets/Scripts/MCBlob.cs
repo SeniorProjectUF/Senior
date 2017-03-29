@@ -1,4 +1,4 @@
-﻿/**
+﻿ /**
  * Metaball implementation by Brian R. Cowan http://www.briancowan.net/ 
  * Metaball tables at http://local.wasp.uwa.edu.au/~pbourke/geometry/polygonise/
  * Examples at http://www.briancowan.net/unity/fx
@@ -46,6 +46,11 @@ public class MCBlob : MonoBehaviour
     int _dimY = 30;
     int _dimZ = 30;
 
+//	int _dimX = 70;
+//	int _dimY = 70;
+//	int _dimZ = 70;
+
+
     public int dimX
     {
         get { return _dimX; }
@@ -64,6 +69,12 @@ public class MCBlob : MonoBehaviour
     /*Blobs are a staggered array of floats, where first index is blob, and second is 0=x, 1=y 2=z 3=power
 	  Multidim might be slightly faster, but staggered made the code a little cleaner IMO*/
     public float[][] blobs;
+
+	//Custom
+	public Vector3[] blobsPos;
+	private TimeManipulation timeMan;
+	private float elapsedTime;
+	//Custom
 
     /*Cutoff intensity, where the surface of mesh will be created*/
     public float isoLevel = .5f;
@@ -328,10 +339,10 @@ public class MCBlob : MonoBehaviour
         if (cube.points[7].i() > isoLevel) { cubeIndex |= 128; }
 
         int edgeIndex = edgeTable[cubeIndex];
-        edgec += edgeIndex;
+        edgec += edgeIndex; 
         if (edgeIndex != 0)
         {
-            if ((edgeIndex & 1) > 0) { genEdge(cube, 0, 0, 1); }
+            if ((edgeIndex & 1) > 0) { genEdge(cube, 0, 0, 1 ); }
             if ((edgeIndex & 2) > 0) { genEdge(cube, 1, 1, 2); }
             if ((edgeIndex & 4) > 0) { genEdge(cube, 2, 2, 3); }
             if ((edgeIndex & 0x8) > 0) { genEdge(cube, 3, 3, 0); }
@@ -408,7 +419,6 @@ public class MCBlob : MonoBehaviour
             jy = (int)((pb[1] + .5f) * dimY);
             jz = (int)((pb[2] + .5f) * dimZ);
 
-
             while (jz >= 0)
             {
                 mcCube cube = getCube(jx, jy, jz);
@@ -480,7 +490,7 @@ public class MCBlob : MonoBehaviour
         mesh.normals = fn;
 
         /*For Disco Ball Effect*/
-        //mesh.RecalculateNormals();	
+        mesh.RecalculateNormals();	
 
 
     }
@@ -516,35 +526,56 @@ public class MCBlob : MonoBehaviour
             //GUIText guit = (GUIText)GameObject.Find("guit").GetComponent<GUIText>();
             //guit.text = "T:" + triP + " V:" + vertP + " C:" + cubec + " FPS:" + (int)(1f / Time.deltaTime);
         }
-        blobs[0][0] = .12f + .12f * (float)Mathf.Sin((float)Time.time * .15f);
-        blobs[0][2] = .06f + .13f * (float)Mathf.Cos((float)Time.time * .07f);
-        blobs[1][0] = .12f + .12f * (float)Mathf.Sin((float)Time.time * .12f);
-        blobs[1][2] = -.23f + .10f * (float)Mathf.Cos((float)Time.time * .1f);
-        blobs[2][1] = -.07f + .14f * (float)Mathf.Sin((float)Time.time * .14f);
-        blobs[3][1] = .126f + .10f * (float)Mathf.Cos((float)Time.time * .1f);
-        blobs[4][0] = .091f + .1f * (float)Mathf.Cos((float)Time.time * .16f);
-        blobs[4][1] = .056f + .1f * (float)Mathf.Sin((float)Time.time * .07f);
-        blobs[4][2] = .07f + .08f * (float)Mathf.Cos((float)Time.time * .19f);
 
-        transform.Rotate(Time.deltaTime * 10f, 0, Time.deltaTime * .6f);
+		elapsedTime = timeMan.elapsedTime;
 
+//        blobs[0][0] = .12f + .12f * (float)Mathf.Sin((float)Time.time * .15f);
+//        blobs[0][2] = .06f + .13f * (float)Mathf.Cos((float)Time.time * .07f);
+//        blobs[1][1] = .12f + .12f * (float)Mathf.Sin((float)Time.time * .12f);
+//        blobs[1][2] = -.03f + .10f * (float)Mathf.Cos((float)Time.time * .1f);
+//        blobs[2][1] = -.07f + .14f * (float)Mathf.Sin((float)Time.time * .14f);
+//        blobs[3][1] = .126f + .10f * (float)Mathf.Cos((float)Time.time * .1f);
+//        blobs[4][0] = .091f + .1f * (float)Mathf.Cos((float)Time.time * .16f);
+//        blobs[4][1] = .056f + .1f * (float)Mathf.Sin((float)Time.time * .07f);
+//        blobs[4][2] = .07f + .08f * (float)Mathf.Cos((float)Time.time * .19f);
+
+		blobs[0][0] = .12f + .12f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+		blobs[0][2] = .06f + .13f * (float)Mathf.Cos(elapsedTime * 2*Mathf.PI);
+		blobs[1][1] = .12f + .12f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+		blobs[1][2] = -.03f + .10f * (float)Mathf.Cos(elapsedTime * 2*Mathf.PI);
+		blobs[2][1] = -.07f + .14f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+
+//        transform.Rotate(Time.deltaTime * 10f, 0, Time.deltaTime * .6f);
+			 
         doFrame();
 
-
+		blobsPos [0] = new Vector3 (blobs [0] [0], blobs [0] [1], blobs [0] [2]);
+		blobsPos [1] = new Vector3 (blobs [1] [0], blobs [1] [1], blobs [1] [2]);
+		blobsPos [2] = new Vector3 (blobs [2] [0], blobs [2] [1], blobs [2] [2]);
     }
 
     //Unity and Sample Specific
     void Start()
     {
         lt = 0f;
-        blobs = new float[5][];
+        blobs = new float[3][];
         blobs[0] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
         blobs[1] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
         blobs[2] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
-        blobs[3] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
-        blobs[4] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
+//        blobs[3] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
+//        blobs[4] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
 
-        isoLevel = 1.95f;
+		//default iso level 
+        //isoLevel = 1.95f;
+
+		//custom iso level
+		isoLevel = 1.5f;
+
+
+
+		blobsPos = new Vector3[blobs.Length];
+		GameObject mainCamera = GameObject.Find("Main Camera");
+		timeMan = mainCamera.GetComponent<TimeManipulation>();
 
         Regen();
 
@@ -662,7 +693,6 @@ public class MCBlob : MonoBehaviour
                     cpt[5] = getPoint(ijx + 1, ijy, ijz + 1);
                     cpt[6] = getPoint(ijx + 1, ijy + 1, ijz + 1);
                     cpt[7] = getPoint(ijx, ijy + 1, ijz + 1);
-
 
                     mcEdge[] e = c.edges;
 
