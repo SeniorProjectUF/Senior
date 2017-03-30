@@ -543,7 +543,8 @@ public class MCBlob : MonoBehaviour
 		blobs[0][2] = .06f + .13f * (float)Mathf.Cos(elapsedTime * 2*Mathf.PI);
 		blobs[1][1] = .12f + .12f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
 		blobs[1][2] = -.03f + .10f * (float)Mathf.Cos(elapsedTime * 2*Mathf.PI);
-		blobs[2][1] = -.07f + .14f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+		blobs[2][0] = .07f - .10f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+		blobs[2][1] = .07f + .14f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
 
 //        transform.Rotate(Time.deltaTime * 10f, 0, Time.deltaTime * .6f);
 			 
@@ -559,7 +560,7 @@ public class MCBlob : MonoBehaviour
     {
         lt = 0f;
         blobs = new float[3][];
-        blobs[0] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
+        blobs[0] = new float[] { Random.Range(-0.8f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
         blobs[1] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
         blobs[2] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
 //        blobs[3] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
