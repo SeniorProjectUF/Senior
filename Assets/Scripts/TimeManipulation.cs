@@ -20,12 +20,12 @@ public class TimeManipulation : MonoBehaviour {
         //playerStateText.text = (isPlaying ? "Play   " : "Pause   ") + timeMultiplier + "x";
         if(isPlaying)
         {
-            GameObject.Find("Main Camera/HUD/PlayerUI/PauseButton").GetComponent<Image>().enabled = false;
-            GameObject.Find("Main Camera/HUD/PlayerUI/PlayButton").GetComponent<Image>().enabled = true;
+            GameObject.FindWithTag("PauseButton").GetComponent<Image>().enabled = false;
+            GameObject.FindWithTag("PlayButton").GetComponent<Image>().enabled = true;
         } else
         {
-            GameObject.Find("Main Camera/HUD/PlayerUI/PlayButton").GetComponent<Image>().enabled = false;
-            GameObject.Find("Main Camera/HUD/PlayerUI/PauseButton").GetComponent<Image>().enabled = true;
+            GameObject.FindWithTag("PlayButton").GetComponent<Image>().enabled = false;
+            GameObject.FindWithTag("PauseButton").GetComponent<Image>().enabled = true;
         }
     }
 	
@@ -81,40 +81,40 @@ public class TimeManipulation : MonoBehaviour {
         }
 
         //playerStateText.text = (isPlaying ? "Play   " : "Pause   ") + timeMultiplier + "x";
-        GameObject.Find("Main Camera/HUD/PlayerUI/multiplyerText").GetComponent<Text>().text = timeMultiplier + "x";
+        GameObject.FindWithTag("multiplyerText").GetComponent<Text>().text = timeMultiplier + "x";
 
         if (isPlaying)
         {
-            GameObject.Find("Main Camera/HUD/PlayerUI/PauseButton").GetComponent<Image>().enabled = false;
-            GameObject.Find("Main Camera/HUD/PlayerUI/PlayButton").GetComponent<Image>().enabled = true;
+            GameObject.FindWithTag("PauseButton").GetComponent<Image>().enabled = false;
+            GameObject.FindWithTag("PlayButton").GetComponent<Image>().enabled = true;
         }
         else
         {
-            GameObject.Find("Main Camera/HUD/PlayerUI/PlayButton").GetComponent<Image>().enabled = false;
-            GameObject.Find("Main Camera/HUD/PlayerUI/PauseButton").GetComponent<Image>().enabled = true;
+            GameObject.FindWithTag("PlayButton").GetComponent<Image>().enabled = false;
+            GameObject.FindWithTag("PauseButton").GetComponent<Image>().enabled = true;
         }
 
         // Show active ffwd symbol
         if (fwd)
         {
-            GameObject.Find("Main Camera/HUD/PlayerUI/ffwdButton").GetComponent<Image>().enabled = false;
-            GameObject.Find("Main Camera/HUD/PlayerUI/ffwdButton-active").GetComponent<Image>().enabled = true;
+            GameObject.FindWithTag("ffwdButton").GetComponent<Image>().enabled = false;
+            GameObject.FindWithTag("ffwdButton-active").GetComponent<Image>().enabled = true;
         }
         else
         {
-            GameObject.Find("Main Camera/HUD/PlayerUI/ffwdButton").GetComponent<Image>().enabled = true;
-            GameObject.Find("Main Camera/HUD/PlayerUI/ffwdButton-active").GetComponent<Image>().enabled = false;
+            GameObject.FindWithTag("ffwdButton").GetComponent<Image>().enabled = true;
+            GameObject.FindWithTag("ffwdButton-active").GetComponent<Image>().enabled = false;
         }
 
         if (rwd)
         {
-            GameObject.Find("Main Camera/HUD/PlayerUI/rwdButton").GetComponent<Image>().enabled = false;
-            GameObject.Find("Main Camera/HUD/PlayerUI/rwdButton-active").GetComponent<Image>().enabled = true;
+            GameObject.FindWithTag("rwdButton").GetComponent<Image>().enabled = false;
+            GameObject.FindWithTag("rwdButton-active").GetComponent<Image>().enabled = true;
         }
         else
         {
-            GameObject.Find("Main Camera/HUD/PlayerUI/rwdButton").GetComponent<Image>().enabled = true;
-            GameObject.Find("Main Camera/HUD/PlayerUI/rwdButton-active").GetComponent<Image>().enabled = false;
+            GameObject.FindWithTag("rwdButton").GetComponent<Image>().enabled = true;
+            GameObject.FindWithTag("rwdButton-active").GetComponent<Image>().enabled = false;
         }
 
         fwd = false;

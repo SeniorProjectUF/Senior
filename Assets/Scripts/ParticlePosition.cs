@@ -20,7 +20,7 @@ public class ParticlePosition : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GameObject mainCamera = GameObject.Find("Main Camera");
+		GameObject mainCamera = GameObject.FindWithTag("MainCamera");
 		timeMan = mainCamera.GetComponent<TimeManipulation>();
 	}
 	
