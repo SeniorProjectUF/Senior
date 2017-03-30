@@ -81,6 +81,8 @@ public class TimeManipulation : MonoBehaviour {
         }
 
         //playerStateText.text = (isPlaying ? "Play   " : "Pause   ") + timeMultiplier + "x";
+        GameObject.Find("Main Camera/HUD/PlayerUI/multiplyerText").GetComponent<Text>().text = timeMultiplier + "x";
+
         if (isPlaying)
         {
             GameObject.Find("Main Camera/HUD/PlayerUI/PauseButton").GetComponent<Image>().enabled = false;
