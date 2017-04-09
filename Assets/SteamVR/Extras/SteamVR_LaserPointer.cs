@@ -67,17 +67,21 @@ public class SteamVR_LaserPointer : MonoBehaviour
     {
         if (PointerIn != null)
             PointerIn(this, e);
+        print("pointerIN");
+        
     }
 
     public virtual void OnPointerOut(PointerEventArgs e)
     {
         if (PointerOut != null)
             PointerOut(this, e);
+        print("pointerOUT");
+
     }
 
 
     // Update is called once per frame
-	void Update ()
+    void Update ()
     {
         if (!isActive)
         {
@@ -95,6 +99,9 @@ public class SteamVR_LaserPointer : MonoBehaviour
 
         if(previousContact && previousContact != hit.transform)
         {
+            HandlePointer handlePointer = previousContact.GetComponent<HandlePointer>();
+            handlePointer.didExit();
+
             PointerEventArgs args = new PointerEventArgs();
             if (controller != null)
             {
@@ -116,6 +123,9 @@ public class SteamVR_LaserPointer : MonoBehaviour
             argsIn.distance = hit.distance;
             argsIn.flags = 0;
             argsIn.target = hit.transform;
+            print(hit.transform);
+            HandlePointer handlePointer = hit.transform.GetComponent<HandlePointer>();
+            handlePointer.didEnter();
             OnPointerIn(argsIn);
             previousContact = hit.transform;
         }

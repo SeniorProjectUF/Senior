@@ -11,6 +11,7 @@ public class ButtonEvents : MonoBehaviour {
     public bool rwd = false;
     public bool increaseMultiplier = false;
     public bool decreaseMultiplier = false;
+    public bool triggerPressed = false;
 
     void Awake()
     {
@@ -34,10 +35,12 @@ public class ButtonEvents : MonoBehaviour {
         increaseMultiplier = false;
         decreaseMultiplier = false;
         centerPressed = false;
+        triggerPressed = false;
 
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
         {
             print("Trigger pressed");
+            triggerPressed = true;
         }
 
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
