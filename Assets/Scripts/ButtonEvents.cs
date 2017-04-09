@@ -6,7 +6,7 @@ public class ButtonEvents : MonoBehaviour {
     private SteamVR_TrackedObject trackedObject;
     private SteamVR_Controller.Device device;
 
-    public bool isPlaying = false;
+    public bool centerPressed = false;
     public bool fwd = false;
     public bool rwd = false;
     public bool increaseMultiplier = false;
@@ -33,6 +33,7 @@ public class ButtonEvents : MonoBehaviour {
         device = SteamVR_Controller.Input((int)trackedObject.index);
         increaseMultiplier = false;
         decreaseMultiplier = false;
+        centerPressed = false;
 
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
         {
@@ -42,6 +43,13 @@ public class ButtonEvents : MonoBehaviour {
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
         {
             Vector2 touchpad = (device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0));
+
+            // If at center of touchpad
+            if (touchpad.y < 0.7 && touchpad.y > -0.7 && touchpad.x < 0.7 && touchpad.x > -0.7)
+            {
+                print("in center");
+                centerPressed = true;
+            }
 
             if (touchpad.y > 0.7f)
             {
