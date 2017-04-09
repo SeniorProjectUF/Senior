@@ -8,6 +8,7 @@ public class SubparticlePosition : MonoBehaviour {
 
 	private MCBlob blobs;
 	private Vector3 position;
+	private Vector3 breakPosition;
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +18,10 @@ public class SubparticlePosition : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.localPosition = blobs.blobsPos [blobID];
+		if (!blobs.isBroken) {
+			transform.localPosition = blobs.blobsPos [blobID];
+		} else {
+			transform.position = blobs.blobsPos [blobID];
+		}
 	}
 }

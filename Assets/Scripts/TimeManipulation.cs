@@ -14,6 +14,9 @@ public class TimeManipulation : MonoBehaviour {
 
 	public Canvas canvus;
 	private Text playerStateText;
+
+	private GameObject[] protons;
+	private GameObject[] subparticles;
 	// Use this for initialization
 	void Start () {
 		playerStateText = canvus.GetComponent<Text>();
@@ -27,6 +30,9 @@ public class TimeManipulation : MonoBehaviour {
             GameObject.Find("Main Camera/HUD/PlayerUI/PlayButton").GetComponent<Image>().enabled = false;
             GameObject.Find("Main Camera/HUD/PlayerUI/PauseButton").GetComponent<Image>().enabled = true;
         }
+
+		protons = GameObject.FindGameObjectsWithTag ("Proton");
+		subparticles = GameObject.FindGameObjectsWithTag ("Particle");
     }
 	
 	// Update is called once4 per frame
@@ -59,16 +65,16 @@ public class TimeManipulation : MonoBehaviour {
 			timeMultiplier = timeMultiplier / 2 >= 0.25f ? timeMultiplier / 2 : timeMultiplier;
         }
 
-        foreach (GameObject proton in GameObject.FindGameObjectsWithTag("Proton")) {
+		foreach (GameObject proton in protons) {
             if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime >= proton.GetComponent<ParticlePosition>().disappearAfter) {
-                proton.GetComponent<Renderer>().enabled = false;
+				proton.SetActive(false);
             }
             else if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime < proton.GetComponent<ParticlePosition>().disappearAfter) {
-                proton.GetComponent<Renderer>().enabled = true;
+				proton.SetActive(true);
             }
         }
 
-        foreach (GameObject particle in GameObject.FindGameObjectsWithTag("Particle"))
+		foreach (GameObject particle in subparticles)
         {
             if (particle.GetComponent<ParticlePosition>().shouldAppear && elapsedTime >= particle.GetComponent<ParticlePosition>().appearAfter)
             {
