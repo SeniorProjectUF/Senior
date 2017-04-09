@@ -3,24 +3,91 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ButtonEvents : MonoBehaviour {
-
     private SteamVR_TrackedObject trackedObject;
     private SteamVR_Controller.Device device;
 
-	// Use this for initialization
-	void Start () {
-        trackedObject = GetComponent<SteamVR_TrackedObject>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        device = SteamVR_Controller.Input((int)trackedObject.index);
+    public bool isPlaying = false;
+    public bool fwd = false;
+    public bool rwd = false;
+    public bool increaseMultiplier = false;
+    public bool decreaseMultiplier = false;
 
-        if(device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+    void Awake()
+    {
+        trackedObject = GetComponent<SteamVR_TrackedObject>();
+
+    }
+
+    // Use this for initialization
+    void Start () {
+
+	}
+
+    void FixedUpdate()
+    {
+        device = SteamVR_Controller.Input((int)trackedObject.index);
+    }
+
+    // Update is called once per frame
+    void Update () {
+        device = SteamVR_Controller.Input((int)trackedObject.index);
+        increaseMultiplier = false;
+        decreaseMultiplier = false;
+
+        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
         {
             print("Trigger pressed");
         }
-	}
+
+        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
+        {
+            Vector2 touchpad = (device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0));
+
+            if (touchpad.y > 0.7f)
+            {
+                // Increase multiplier
+                increaseMultiplier = true;
+            }
+
+            else if (touchpad.y < -0.7f)
+            {
+                // Decrease multiplier
+                decreaseMultiplier = true;
+            }
+
+            if (touchpad.x > 0.7f)
+            {
+                // Start fwrd
+                fwd = true;
+            }
+
+            else if (touchpad.x < -0.7f)
+            {
+                // Start rwnd
+                rwd = true;
+            }
+
+        }
+
+        if (device.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
+        {
+            Vector2 touchpad = (device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0));
+            print("Pressing Touchpad");
+
+            if (touchpad.x > 0.7f)
+            {
+                // Stop fwrd
+                fwd = false;
+            }
+
+            else if (touchpad.x < -0.7f)
+            {
+                // Stop rwnd
+                rwd = false;
+            }
+
+        }
+}
 
     //void Trigger()
     //{

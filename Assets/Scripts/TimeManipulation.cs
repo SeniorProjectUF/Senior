@@ -7,15 +7,16 @@ public class TimeManipulation : MonoBehaviour {
 
     public float elapsedTime = 0.0f;
     public float timeStep = 0.02f;
-	bool isPlaying = false;
+    bool isPlaying = false;
 	public float timeMultiplier = 1.0f;
     bool fwd = false;
     bool rwd = false;
 
 	public Canvas canvus;
 	private Text playerStateText;
-	// Use this for initialization
-	void Start () {
+    private ButtonEvents leftButtons;
+    // Use this for initialization
+    void Start () {
 		playerStateText = canvus.GetComponent<Text>();
         //playerStateText.text = (isPlaying ? "Play   " : "Pause   ") + timeMultiplier + "x";
         if(isPlaying)
@@ -27,6 +28,11 @@ public class TimeManipulation : MonoBehaviour {
             GameObject.FindWithTag("PlayButton").GetComponent<Image>().enabled = false;
             GameObject.FindWithTag("PauseButton").GetComponent<Image>().enabled = true;
         }
+
+        GameObject mainCamera = GameObject.FindWithTag("MainCamera");
+        GameObject leftController = mainCamera.GetComponent<SteamVR_ControllerManager>().left;
+        print(leftController);
+        leftButtons = leftController.GetComponent<ButtonEvents>();
     }
 	
 	// Update is called once4 per frame
@@ -40,22 +46,22 @@ public class TimeManipulation : MonoBehaviour {
 			elapsedTime += timeStep * timeMultiplier;
 		}
 
-		if (Input.GetKey (KeyCode.LeftArrow)) {
+		if (Input.GetKey (KeyCode.LeftArrow) || leftButtons.rwd) {
 			isPlaying = false;
             rwd = true;
             fwd = false;
 			elapsedTime -= timeStep * timeMultiplier;
         }
-		if (Input.GetKey (KeyCode.RightArrow)) {
+		if (Input.GetKey (KeyCode.RightArrow) || leftButtons.fwd) {
 			isPlaying = false; 
 			elapsedTime += timeStep * timeMultiplier;
             rwd = false;
             fwd = true;
         }
-		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+		if (Input.GetKeyDown (KeyCode.UpArrow) || leftButtons.increaseMultiplier) {
 			timeMultiplier = timeMultiplier * 2 <= 4 ? timeMultiplier * 2 : timeMultiplier;
         }
-		if (Input.GetKeyDown (KeyCode.DownArrow)) {
+		if (Input.GetKeyDown (KeyCode.DownArrow) || leftButtons.decreaseMultiplier) {
 			timeMultiplier = timeMultiplier / 2 >= 0.25f ? timeMultiplier / 2 : timeMultiplier;
         }
 
