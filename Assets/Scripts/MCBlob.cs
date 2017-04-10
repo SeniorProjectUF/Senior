@@ -641,8 +641,10 @@ public class MCBlob : MonoBehaviour
 
 
 		blobsPos = new Vector3[blobs.Length];
-		GameObject mainCamera = GameObject.Find("Main Camera");
-		timeMan = mainCamera.GetComponent<TimeManipulation>();
+        GameObject mainCamera = GameObject.FindWithTag("MainCamera");
+        timeMan = mainCamera.GetComponent<TimeManipulation>();
+        print("test");
+        print(timeMan);
 
         Regen();
 

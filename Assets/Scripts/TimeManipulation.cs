@@ -7,6 +7,8 @@ public class TimeManipulation : MonoBehaviour {
 
     public float elapsedTime = 0.0f;
     public float timeStep = 0.02f;
+    public float lowerLimit = 0.0f;
+    public float upperLimit = 8.0f;
     bool isPlaying = false;
 	public float timeMultiplier = 1.0f;
     bool fwd = false;
@@ -93,6 +95,15 @@ public class TimeManipulation : MonoBehaviour {
 			timeMultiplier = timeMultiplier / 2 >= 0.25f ? timeMultiplier / 2 : timeMultiplier;
         }
 
+        if(elapsedTime < lowerLimit)
+        {
+            elapsedTime = lowerLimit;
+        }
+        if(elapsedTime > upperLimit)
+        {
+            elapsedTime = upperLimit;
+        }
+
 		foreach (GameObject proton in protons) {
             if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime >= proton.GetComponent<ParticlePosition>().disappearAfter) {
 				proton.GetComponent<Renderer>().enabled = false;
@@ -116,7 +127,7 @@ public class TimeManipulation : MonoBehaviour {
 //				if(particle.GetComponent<ParticlePosition>().shouldAppear){
 					particle.GetComponent<Renderer>().enabled = true;
 //				}
-			} else if(elapsedTime >= particle.GetComponent<ParticlePosition>().disappearAfter){
+			} else if(elapsedTime > particle.GetComponent<ParticlePosition>().disappearAfter){
 //				if(particle.GetComponent<ParticlePosition>().shouldDisappear){
 					particle.GetComponent<Renderer>().enabled = false;
 //				}
