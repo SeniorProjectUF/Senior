@@ -53,7 +53,8 @@ public class TimeManipulation : MonoBehaviour {
 	
 	// Update is called once4 per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Space) || leftButtons.centerPressed) { 
+
+        if (Input.GetKeyDown (KeyCode.Space) || leftButtons.centerPressed) { 
 			isPlaying = !isPlaying;
             fwd = false;
             rwd = false;
