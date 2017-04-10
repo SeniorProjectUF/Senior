@@ -63,7 +63,6 @@ public class TimeManipulation : MonoBehaviour {
 	
 	// Update is called once4 per frame
 	void Update () {
-		print((int)(1f / Time.deltaTime));
 
         if (Input.GetKeyDown(KeyCode.Space) || leftButtons.centerPressed || rightButtons.centerPressed)
         {
@@ -109,14 +108,28 @@ public class TimeManipulation : MonoBehaviour {
 
 		foreach (GameObject particle in subparticles)
         {
-            if (particle.GetComponent<ParticlePosition>().shouldAppear && elapsedTime >= particle.GetComponent<ParticlePosition>().appearAfter)
-            {
-                particle.GetComponent<Renderer>().enabled = true;
-            }
-            else if (particle.GetComponent<ParticlePosition>().shouldAppear && elapsedTime < particle.GetComponent<ParticlePosition>().appearAfter)
-            {
-                particle.GetComponent<Renderer>().enabled = false;
-            }
+			if(elapsedTime < particle.GetComponent<ParticlePosition>().appearAfter){
+//				if(particle.GetComponent<ParticlePosition>().shouldAppear){
+					particle.GetComponent<Renderer>().enabled = false;
+//				}
+			} else if(elapsedTime >= particle.GetComponent<ParticlePosition>().appearAfter && elapsedTime < particle.GetComponent<ParticlePosition>().disappearAfter){
+//				if(particle.GetComponent<ParticlePosition>().shouldAppear){
+					particle.GetComponent<Renderer>().enabled = true;
+//				}
+			} else if(elapsedTime >= particle.GetComponent<ParticlePosition>().disappearAfter){
+//				if(particle.GetComponent<ParticlePosition>().shouldDisappear){
+					particle.GetComponent<Renderer>().enabled = false;
+//				}
+			}
+
+//            if (particle.GetComponent<ParticlePosition>().shouldAppear && elapsedTime >= particle.GetComponent<ParticlePosition>().appearAfter)
+//            {
+//                particle.GetComponent<Renderer>().enabled = true;
+//            }
+//            else if (particle.GetComponent<ParticlePosition>().shouldAppear && elapsedTime < particle.GetComponent<ParticlePosition>().appearAfter)
+//            {
+//                particle.GetComponent<Renderer>().enabled = false;
+//            }
         }
         
         foreach (GameObject multiplier in GameObject.FindGameObjectsWithTag("multiplyerText"))
