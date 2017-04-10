@@ -570,23 +570,38 @@ public class MCBlob : MonoBehaviour
 			blobs[2][0] = .07f - .10f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
 			blobs[2][1] = .07f + .14f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
 			blobs[2][2] = startBlobsPos [2].z;
+
+			blobsPos [0] = new Vector3 (blobs [0] [0], blobs [0] [1], blobs [0] [2]);
+			blobsPos [1] = new Vector3 (blobs [1] [0], blobs [1] [1], blobs [1] [2]);
+			blobsPos [2] = new Vector3 (blobs [2] [0], blobs [2] [1], blobs [2] [2]);
+
 			isBroken = false;
 		} else {
-			blobs[0][0] = subparticleReplacementOne.transform.position.x;
-			blobs[0][1] = subparticleReplacementOne.transform.position.y;
-			blobs[0][2] = subparticleReplacementOne.transform.position.z;
-			blobs[1][0] = subparticleReplacementTwo.transform.position.x;
-			blobs[1][1] = subparticleReplacementTwo.transform.position.y;
-			blobs[1][2] = subparticleReplacementTwo.transform.position.z;
-			blobs[2][0] = subparticleReplacementThree.transform.position.x;
-			blobs[2][1] = subparticleReplacementThree.transform.position.y;
-			blobs[2][2] = subparticleReplacementThree.transform.position.z;
+
+			float xPos = this.gameObject.transform.position.x;
+			float yPos = this.gameObject.transform.position.y;
+			float zPos = this.gameObject.transform.position.z;
+
+			float ratio = this.gameObject.transform.rotation.z != 0 ? 1 : -1;
+
+			blobs [0] [0] = ratio*(xPos - subparticleReplacementOne.transform.position.x);
+			blobs [0] [1] = ratio*(yPos - subparticleReplacementOne.transform.position.y);
+			blobs [0] [2] = subparticleReplacementOne.transform.position.z - zPos;
+			blobs [1] [0] = ratio*(xPos - subparticleReplacementTwo.transform.position.x);
+			blobs [1] [1] = ratio*(yPos - subparticleReplacementTwo.transform.position.y);
+			blobs [1] [2] = subparticleReplacementTwo.transform.position.z - zPos;
+			blobs [2] [0] = ratio*(xPos - subparticleReplacementThree.transform.position.x);
+			blobs [2] [1] = ratio*(yPos - subparticleReplacementThree.transform.position.y);
+			blobs [2] [2] = subparticleReplacementThree.transform.position.z-zPos;
+
+			blobsPos [0] = new Vector3 (subparticleReplacementOne.transform.position.x, subparticleReplacementOne.transform.position.y, subparticleReplacementOne.transform.position.z);
+			blobsPos [1] = new Vector3 (subparticleReplacementTwo.transform.position.x, subparticleReplacementTwo.transform.position.y, subparticleReplacementTwo.transform.position.z);
+			blobsPos [2] = new Vector3 (subparticleReplacementThree.transform.position.x, subparticleReplacementThree.transform.position.y, subparticleReplacementThree.transform.position.z);
+
 			isBroken = true;
 		}
 
-		blobsPos [0] = new Vector3 (blobs [0] [0], blobs [0] [1], blobs [0] [2]);
-		blobsPos [1] = new Vector3 (blobs [1] [0], blobs [1] [1], blobs [1] [2]);
-		blobsPos [2] = new Vector3 (blobs [2] [0], blobs [2] [1], blobs [2] [2]);
+		
 
 		if (elapsedTime <= breakTime) {
 			isoLevel = 1.5f;	

@@ -17,6 +17,7 @@ public class TimeManipulation : MonoBehaviour {
 
 	private GameObject[] protons;
 	private GameObject[] subparticles;
+	private GameObject[] protonSubs;
 	// Use this for initialization
 	void Start () {
 		playerStateText = canvus.GetComponent<Text>();
@@ -33,6 +34,7 @@ public class TimeManipulation : MonoBehaviour {
 
 		protons = GameObject.FindGameObjectsWithTag ("Proton");
 		subparticles = GameObject.FindGameObjectsWithTag ("Particle");
+		protonSubs = GameObject.FindGameObjectsWithTag ("ProtonSub");
     }
 	
 	// Update is called once4 per frame
@@ -67,10 +69,14 @@ public class TimeManipulation : MonoBehaviour {
 
 		foreach (GameObject proton in protons) {
             if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime >= proton.GetComponent<ParticlePosition>().disappearAfter) {
-				proton.SetActive(false);
+				proton.GetComponent<Renderer>().enabled = false;
+				foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
+					r.enabled = false;
             }
             else if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime < proton.GetComponent<ParticlePosition>().disappearAfter) {
-				proton.SetActive(true);
+				proton.GetComponent<Renderer>().enabled = true;
+				foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
+					r.enabled = true;
             }
         }
 
@@ -85,6 +91,15 @@ public class TimeManipulation : MonoBehaviour {
                 particle.GetComponent<Renderer>().enabled = false;
             }
         }
+
+		foreach (GameObject pro in protonSubs) {
+			if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime >= pro.GetComponent<SubparticlePosition>().disappearAfter) {
+				pro.GetComponent<Renderer>().enabled = false;
+			}
+			else if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime < pro.GetComponent<SubparticlePosition>().disappearAfter) {
+				pro.GetComponent<Renderer>().enabled = true;
+			}
+		}
 
         //playerStateText.text = (isPlaying ? "Play   " : "Pause   ") + timeMultiplier + "x";
         GameObject.Find("Main Camera/HUD/PlayerUI/multiplyerText").GetComponent<Text>().text = timeMultiplier + "x";
