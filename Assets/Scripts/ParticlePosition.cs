@@ -31,8 +31,6 @@ public class ParticlePosition : MonoBehaviour {
 
 		transform.position = new Vector3(calculatePositionWithPolyAndTime(xPosPoly, xPosShift, time), calculatePositionWithPolyAndTime(yPosPoly, yPosShift, time), calculatePositionWithPolyAndTime(zPosPoly, zPosShift, time));
 
-//		print((int)(1f / Time.deltaTime));
-
 	}
 
 	float calculatePositionWithPolyAndTime(float[] poly, float shift, float time){
