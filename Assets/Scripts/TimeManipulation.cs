@@ -14,6 +14,9 @@ public class TimeManipulation : MonoBehaviour {
 
 	public Canvas canvus;
 	private Text playerStateText;
+    private GameObject[] protons;
+    private GameObject[] subparticles;
+    private GameObject[] protonSubs;
     private ButtonEvents leftButtons;
     // Use this for initialization
     void Start () {
@@ -44,17 +47,22 @@ public class TimeManipulation : MonoBehaviour {
                 playButton.GetComponent<Image>().enabled = false;
             }
         }
-
+        
         GameObject mainCamera = GameObject.FindWithTag("MainCamera");
         GameObject leftController = mainCamera.GetComponent<SteamVR_ControllerManager>().left;
         print(leftController);
         leftButtons = leftController.GetComponent<ButtonEvents>();
+		protons = GameObject.FindGameObjectsWithTag ("Proton");
+		subparticles = GameObject.FindGameObjectsWithTag ("Particle");
+		protonSubs = GameObject.FindGameObjectsWithTag ("ProtonSub");
     }
 	
 	// Update is called once4 per frame
 	void Update () {
+		print((int)(1f / Time.deltaTime));
 
-        if (Input.GetKeyDown (KeyCode.Space) || leftButtons.centerPressed) { 
+        if (Input.GetKeyDown(KeyCode.Space) || leftButtons.centerPressed)
+        {
 			isPlaying = !isPlaying;
             fwd = false;
             rwd = false;
@@ -82,16 +90,20 @@ public class TimeManipulation : MonoBehaviour {
 			timeMultiplier = timeMultiplier / 2 >= 0.25f ? timeMultiplier / 2 : timeMultiplier;
         }
 
-        foreach (GameObject proton in GameObject.FindGameObjectsWithTag("Proton")) {
+		foreach (GameObject proton in protons) {
             if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime >= proton.GetComponent<ParticlePosition>().disappearAfter) {
-                proton.GetComponent<Renderer>().enabled = false;
+				proton.GetComponent<Renderer>().enabled = false;
+				foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
+					r.enabled = false;
             }
             else if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime < proton.GetComponent<ParticlePosition>().disappearAfter) {
-                proton.GetComponent<Renderer>().enabled = true;
+				proton.GetComponent<Renderer>().enabled = true;
+				foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
+					r.enabled = true;
             }
         }
 
-        foreach (GameObject particle in GameObject.FindGameObjectsWithTag("Particle"))
+		foreach (GameObject particle in subparticles)
         {
             if (particle.GetComponent<ParticlePosition>().shouldAppear && elapsedTime >= particle.GetComponent<ParticlePosition>().appearAfter)
             {
@@ -107,6 +119,15 @@ public class TimeManipulation : MonoBehaviour {
         {
             multiplier.GetComponent<Text>().text = timeMultiplier + "x";
         }
+
+		foreach (GameObject pro in protonSubs) {
+			if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime >= pro.GetComponent<SubparticlePosition>().disappearAfter) {
+				pro.GetComponent<Renderer>().enabled = false;
+			}
+			else if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime < pro.GetComponent<SubparticlePosition>().disappearAfter) {
+				pro.GetComponent<Renderer>().enabled = true;
+			}
+		}
 
         if (isPlaying)
         {

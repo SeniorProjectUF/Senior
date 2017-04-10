@@ -71,9 +71,17 @@ public class MCBlob : MonoBehaviour
     public float[][] blobs;
 
 	//Custom
+	public Vector3[] startBlobsPos;
+	public Vector3 startBlobsRot;
 	public Vector3[] blobsPos;
 	private TimeManipulation timeMan;
 	private float elapsedTime;
+	public float breakTime;
+	public float endBreakTime;
+	public GameObject subparticleReplacementOne;
+	public GameObject subparticleReplacementTwo;
+	public GameObject subparticleReplacementThree;
+	public bool isBroken;
 	//Custom
 
     /*Cutoff intensity, where the surface of mesh will be created*/
@@ -490,7 +498,7 @@ public class MCBlob : MonoBehaviour
         mesh.normals = fn;
 
         /*For Disco Ball Effect*/
-        mesh.RecalculateNormals();	
+        //mesh.RecalculateNormals();	
 
 
     }
@@ -527,8 +535,6 @@ public class MCBlob : MonoBehaviour
             //guit.text = "T:" + triP + " V:" + vertP + " C:" + cubec + " FPS:" + (int)(1f / Time.deltaTime);
         }
 
-		elapsedTime = timeMan.elapsedTime;
-
 //        blobs[0][0] = .12f + .12f * (float)Mathf.Sin((float)Time.time * .15f);
 //        blobs[0][2] = .06f + .13f * (float)Mathf.Cos((float)Time.time * .07f);
 //        blobs[1][1] = .12f + .12f * (float)Mathf.Sin((float)Time.time * .12f);
@@ -539,20 +545,74 @@ public class MCBlob : MonoBehaviour
 //        blobs[4][1] = .056f + .1f * (float)Mathf.Sin((float)Time.time * .07f);
 //        blobs[4][2] = .07f + .08f * (float)Mathf.Cos((float)Time.time * .19f);
 
-		blobs[0][0] = .12f + .12f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
-		blobs[0][2] = .06f + .13f * (float)Mathf.Cos(elapsedTime * 2*Mathf.PI);
-		blobs[1][1] = .12f + .12f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
-		blobs[1][2] = -.03f + .10f * (float)Mathf.Cos(elapsedTime * 2*Mathf.PI);
-		blobs[2][0] = .07f - .10f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
-		blobs[2][1] = .07f + .14f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
-
 //        transform.Rotate(Time.deltaTime * 10f, 0, Time.deltaTime * .6f);
-			 
-        doFrame();
 
-		blobsPos [0] = new Vector3 (blobs [0] [0], blobs [0] [1], blobs [0] [2]);
-		blobsPos [1] = new Vector3 (blobs [1] [0], blobs [1] [1], blobs [1] [2]);
-		blobsPos [2] = new Vector3 (blobs [2] [0], blobs [2] [1], blobs [2] [2]);
+		elapsedTime = timeMan.elapsedTime;
+
+//		blobs[0][0] = .12f + .12f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+//		blobs[0][1] = startBlobsPos [0].y;
+//		blobs[0][2] = .06f + .13f * (float)Mathf.Cos(elapsedTime * 2*Mathf.PI);
+//		blobs[1][0] = startBlobsPos [1].x;
+//		blobs[1][1] = .12f + .12f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+//		blobs[1][2] = -.03f + .10f * (float)Mathf.Cos(elapsedTime * 2*Mathf.PI);
+//		blobs[2][0] = .07f - .10f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+//		blobs[2][1] = .07f + .14f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+//		blobs[2][2] = startBlobsPos [2].z;
+
+
+		if (elapsedTime <= breakTime) {
+			blobs[0][0] = .12f + .12f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+			blobs[0][1] = startBlobsPos [0].y;
+			blobs[0][2] = .06f + .13f * (float)Mathf.Cos(elapsedTime * 2*Mathf.PI);
+			blobs[1][0] = startBlobsPos [1].x;
+			blobs[1][1] = .12f + .12f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+			blobs[1][2] = -.03f + .10f * (float)Mathf.Cos(elapsedTime * 2*Mathf.PI);
+			blobs[2][0] = .07f - .10f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+			blobs[2][1] = .07f + .14f * (float)Mathf.Sin(elapsedTime * 2*Mathf.PI);
+			blobs[2][2] = startBlobsPos [2].z;
+
+			blobsPos [0] = new Vector3 (blobs [0] [0], blobs [0] [1], blobs [0] [2]);
+			blobsPos [1] = new Vector3 (blobs [1] [0], blobs [1] [1], blobs [1] [2]);
+			blobsPos [2] = new Vector3 (blobs [2] [0], blobs [2] [1], blobs [2] [2]);
+
+			isBroken = false;
+		} else {
+
+			float xPos = this.gameObject.transform.position.x;
+			float yPos = this.gameObject.transform.position.y;
+			float zPos = this.gameObject.transform.position.z;
+
+			float ratio = this.gameObject.transform.rotation.z != 0 ? 1 : -1;
+
+			blobs [0] [0] = ratio*(xPos - subparticleReplacementOne.transform.position.x);
+			blobs [0] [1] = ratio*(yPos - subparticleReplacementOne.transform.position.y);
+			blobs [0] [2] = subparticleReplacementOne.transform.position.z - zPos;
+			blobs [1] [0] = ratio*(xPos - subparticleReplacementTwo.transform.position.x);
+			blobs [1] [1] = ratio*(yPos - subparticleReplacementTwo.transform.position.y);
+			blobs [1] [2] = subparticleReplacementTwo.transform.position.z - zPos;
+			blobs [2] [0] = ratio*(xPos - subparticleReplacementThree.transform.position.x);
+			blobs [2] [1] = ratio*(yPos - subparticleReplacementThree.transform.position.y);
+			blobs [2] [2] = subparticleReplacementThree.transform.position.z-zPos;
+
+			blobsPos [0] = new Vector3 (subparticleReplacementOne.transform.position.x, subparticleReplacementOne.transform.position.y, subparticleReplacementOne.transform.position.z);
+			blobsPos [1] = new Vector3 (subparticleReplacementTwo.transform.position.x, subparticleReplacementTwo.transform.position.y, subparticleReplacementTwo.transform.position.z);
+			blobsPos [2] = new Vector3 (subparticleReplacementThree.transform.position.x, subparticleReplacementThree.transform.position.y, subparticleReplacementThree.transform.position.z);
+
+			isBroken = true;
+		}
+
+		
+
+		if (elapsedTime <= breakTime) {
+			isoLevel = 1.5f;	
+		} else if (elapsedTime >= endBreakTime) {
+			isoLevel = 9.0f;	
+		} else { 
+			isoLevel = ((elapsedTime-breakTime)/(endBreakTime-breakTime) * 7.5f) + 1.5f;
+		}
+
+		doFrame();
+
     }
 
     //Unity and Sample Specific
@@ -560,14 +620,20 @@ public class MCBlob : MonoBehaviour
     {
         lt = 0f;
         blobs = new float[3][];
-        blobs[0] = new float[] { Random.Range(-0.8f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
-        blobs[1] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
-        blobs[2] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
+//        blobs[0] = new float[] { Random.Range(-0.8f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
+//        blobs[1] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
+//        blobs[2] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
 //        blobs[3] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
 //        blobs[4] = new float[] { Random.Range(-0.18f, 0.16f), Random.Range(0.0f, 0.1999f), Random.Range(0.0f, 0.1999f), Random.Range(0.12f, 0.16f) };
 
 		//default iso level 
         //isoLevel = 1.95f;
+
+		blobs[0] = new float[] { startBlobsPos[0].x, startBlobsPos[0].y, startBlobsPos[0].z, 0.14f };
+		blobs[1] = new float[] { startBlobsPos[1].x, startBlobsPos[1].y, startBlobsPos[1].z, 0.14f };
+		blobs[2] = new float[] { startBlobsPos[2].x, startBlobsPos[2].y, startBlobsPos[2].z, 0.14f };
+		transform.Rotate(startBlobsRot[0], startBlobsRot[1], startBlobsRot[2]);
+		isBroken = false;
 
 		//custom iso level
 		isoLevel = 1.5f;
@@ -583,8 +649,6 @@ public class MCBlob : MonoBehaviour
 
 
     }
-
-
 
     /*Unity Specific starting of engine*/
     void startEngine()
