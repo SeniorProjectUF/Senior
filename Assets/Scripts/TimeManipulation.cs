@@ -18,6 +18,7 @@ public class TimeManipulation : MonoBehaviour {
     private GameObject[] subparticles;
     private GameObject[] protonSubs;
     private ButtonEvents leftButtons;
+    private ButtonEvents rightButtons;
     // Use this for initialization
     void Start () {
 		playerStateText = canvus.GetComponent<Text>();
@@ -49,10 +50,13 @@ public class TimeManipulation : MonoBehaviour {
         }
         
         GameObject mainCamera = GameObject.FindWithTag("MainCamera");
+
         GameObject leftController = mainCamera.GetComponent<SteamVR_ControllerManager>().left;
-        print(leftController);
+        GameObject rightController = mainCamera.GetComponent<SteamVR_ControllerManager>().right;
         leftButtons = leftController.GetComponent<ButtonEvents>();
-		protons = GameObject.FindGameObjectsWithTag ("Proton");
+        rightButtons = rightController.GetComponent<ButtonEvents>();
+
+        protons = GameObject.FindGameObjectsWithTag ("Proton");
 		subparticles = GameObject.FindGameObjectsWithTag ("Particle");
 		protonSubs = GameObject.FindGameObjectsWithTag ("ProtonSub");
     }
@@ -61,7 +65,7 @@ public class TimeManipulation : MonoBehaviour {
 	void Update () {
 		print((int)(1f / Time.deltaTime));
 
-        if (Input.GetKeyDown(KeyCode.Space) || leftButtons.centerPressed)
+        if (Input.GetKeyDown(KeyCode.Space) || leftButtons.centerPressed || rightButtons.centerPressed)
         {
 			isPlaying = !isPlaying;
             fwd = false;
@@ -71,22 +75,22 @@ public class TimeManipulation : MonoBehaviour {
 			elapsedTime += timeStep * timeMultiplier;
 		}
 
-		if (Input.GetKey (KeyCode.LeftArrow) || leftButtons.rwd) {
+		if (Input.GetKey (KeyCode.LeftArrow) || leftButtons.rwd || rightButtons.rwd) {
 			isPlaying = false;
             rwd = true;
             fwd = false;
 			elapsedTime -= timeStep * timeMultiplier;
         }
-		if (Input.GetKey (KeyCode.RightArrow) || leftButtons.fwd) {
+		if (Input.GetKey (KeyCode.RightArrow) || leftButtons.fwd || rightButtons.fwd) {
 			isPlaying = false; 
 			elapsedTime += timeStep * timeMultiplier;
             rwd = false;
             fwd = true;
         }
-		if (Input.GetKeyDown (KeyCode.UpArrow) || leftButtons.increaseMultiplier) {
+		if (Input.GetKeyDown (KeyCode.UpArrow) || leftButtons.increaseMultiplier || rightButtons.increaseMultiplier) {
 			timeMultiplier = timeMultiplier * 2 <= 4 ? timeMultiplier * 2 : timeMultiplier;
         }
-		if (Input.GetKeyDown (KeyCode.DownArrow) || leftButtons.decreaseMultiplier) {
+		if (Input.GetKeyDown (KeyCode.DownArrow) || leftButtons.decreaseMultiplier || rightButtons.decreaseMultiplier) {
 			timeMultiplier = timeMultiplier / 2 >= 0.25f ? timeMultiplier / 2 : timeMultiplier;
         }
 
