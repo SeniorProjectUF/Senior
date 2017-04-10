@@ -19,14 +19,30 @@ public class TimeManipulation : MonoBehaviour {
     void Start () {
 		playerStateText = canvus.GetComponent<Text>();
         //playerStateText.text = (isPlaying ? "Play   " : "Pause   ") + timeMultiplier + "x";
-        if(isPlaying)
+
+        if (isPlaying)
         {
-            GameObject.FindWithTag("PauseButton").GetComponent<Image>().enabled = false;
-            GameObject.FindWithTag("PlayButton").GetComponent<Image>().enabled = true;
-        } else
+            foreach (GameObject pauseButton in GameObject.FindGameObjectsWithTag("PauseButton"))
+            {
+                pauseButton.GetComponent<Image>().enabled = false;
+            }
+
+            foreach (GameObject playButton in GameObject.FindGameObjectsWithTag("PlayButton"))
+            {
+                playButton.GetComponent<Image>().enabled = true;
+            }
+        }
+        else
         {
-            GameObject.FindWithTag("PlayButton").GetComponent<Image>().enabled = false;
-            GameObject.FindWithTag("PauseButton").GetComponent<Image>().enabled = true;
+            foreach (GameObject pauseButton in GameObject.FindGameObjectsWithTag("PauseButton"))
+            {
+                pauseButton.GetComponent<Image>().enabled = true;
+            }
+
+            foreach (GameObject playButton in GameObject.FindGameObjectsWithTag("PlayButton"))
+            {
+                playButton.GetComponent<Image>().enabled = false;
+            }
         }
 
         GameObject mainCamera = GameObject.FindWithTag("MainCamera");
@@ -85,42 +101,86 @@ public class TimeManipulation : MonoBehaviour {
                 particle.GetComponent<Renderer>().enabled = false;
             }
         }
-
-        //playerStateText.text = (isPlaying ? "Play   " : "Pause   ") + timeMultiplier + "x";
-        GameObject.FindWithTag("multiplyerText").GetComponent<Text>().text = timeMultiplier + "x";
+        
+        foreach (GameObject multiplier in GameObject.FindGameObjectsWithTag("multiplyerText"))
+        {
+            multiplier.GetComponent<Text>().text = timeMultiplier + "x";
+        }
 
         if (isPlaying)
         {
-            GameObject.FindWithTag("PauseButton").GetComponent<Image>().enabled = false;
-            GameObject.FindWithTag("PlayButton").GetComponent<Image>().enabled = true;
+            foreach (GameObject pauseButton in GameObject.FindGameObjectsWithTag("PauseButton"))
+            {
+                pauseButton.GetComponent<Image>().enabled = false;
+            }
+
+            foreach (GameObject playButton in GameObject.FindGameObjectsWithTag("PlayButton"))
+            {
+                playButton.GetComponent<Image>().enabled = true;
+            }
         }
         else
         {
-            GameObject.FindWithTag("PlayButton").GetComponent<Image>().enabled = false;
-            GameObject.FindWithTag("PauseButton").GetComponent<Image>().enabled = true;
+            foreach (GameObject pauseButton in GameObject.FindGameObjectsWithTag("PauseButton"))
+            {
+                pauseButton.GetComponent<Image>().enabled = true;
+            }
+
+            foreach (GameObject playButton in GameObject.FindGameObjectsWithTag("PlayButton"))
+            {
+                playButton.GetComponent<Image>().enabled = false;
+            }
         }
 
         // Show active ffwd symbol
         if (fwd)
         {
-            GameObject.FindWithTag("ffwdButton").GetComponent<Image>().enabled = false;
-            GameObject.FindWithTag("ffwdButton-active").GetComponent<Image>().enabled = true;
+            foreach (GameObject ffwdButton in GameObject.FindGameObjectsWithTag("ffwdButton"))
+            {
+                ffwdButton.GetComponent<Image>().enabled = false;
+            }
+
+            foreach (GameObject ffwdButtonActive in GameObject.FindGameObjectsWithTag("ffwdButton-active"))
+            {
+                ffwdButtonActive.GetComponent<Image>().enabled = true;
+            }
         }
         else
         {
-            GameObject.FindWithTag("ffwdButton").GetComponent<Image>().enabled = true;
-            GameObject.FindWithTag("ffwdButton-active").GetComponent<Image>().enabled = false;
+            foreach (GameObject ffwdButton in GameObject.FindGameObjectsWithTag("ffwdButton"))
+            {
+                ffwdButton.GetComponent<Image>().enabled = true;
+            }
+
+            foreach (GameObject ffwdButtonActive in GameObject.FindGameObjectsWithTag("ffwdButton-active"))
+            {
+                ffwdButtonActive.GetComponent<Image>().enabled = false;
+            }
         }
 
         if (rwd)
         {
-            GameObject.FindWithTag("rwdButton").GetComponent<Image>().enabled = false;
-            GameObject.FindWithTag("rwdButton-active").GetComponent<Image>().enabled = true;
+            foreach (GameObject rwdButton in GameObject.FindGameObjectsWithTag("rwdButton"))
+            {
+                rwdButton.GetComponent<Image>().enabled = false;
+            }
+
+            foreach (GameObject rwdButtonActive in GameObject.FindGameObjectsWithTag("rwdButton-active"))
+            {
+                rwdButtonActive.GetComponent<Image>().enabled = true;
+            }
         }
         else
         {
-            GameObject.FindWithTag("rwdButton").GetComponent<Image>().enabled = true;
-            GameObject.FindWithTag("rwdButton-active").GetComponent<Image>().enabled = false;
+            foreach (GameObject rwdButton in GameObject.FindGameObjectsWithTag("rwdButton"))
+            {
+                rwdButton.GetComponent<Image>().enabled = true;
+            }
+
+            foreach (GameObject rwdButtonActive in GameObject.FindGameObjectsWithTag("rwdButton-active"))
+            {
+                rwdButtonActive.GetComponent<Image>().enabled = false;
+            }
         }
 
         fwd = false;
