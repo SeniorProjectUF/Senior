@@ -107,13 +107,13 @@ public class TimeManipulation : MonoBehaviour {
 		foreach (GameObject proton in protons) {
             if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime >= proton.GetComponent<ParticlePosition>().disappearAfter) {
 				proton.GetComponent<Renderer>().enabled = false;
-				foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
-					r.enabled = false;
+				//foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
+				//	r.enabled = false;
             }
             else if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime < proton.GetComponent<ParticlePosition>().disappearAfter) {
 				proton.GetComponent<Renderer>().enabled = true;
-				foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
-					r.enabled = true;
+                //foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
+                //	r.enabled = true;
             }
         }
 
@@ -122,16 +122,20 @@ public class TimeManipulation : MonoBehaviour {
 			if(elapsedTime < particle.GetComponent<ParticlePosition>().appearAfter){
 //				if(particle.GetComponent<ParticlePosition>().shouldAppear){
 					particle.GetComponent<Renderer>().enabled = false;
-//				}
-			} else if(elapsedTime >= particle.GetComponent<ParticlePosition>().appearAfter && elapsedTime < particle.GetComponent<ParticlePosition>().disappearAfter){
+                    particle.GetComponent<SphereCollider>().enabled = false;
+                //				}
+            }
+            else if(elapsedTime >= particle.GetComponent<ParticlePosition>().appearAfter && elapsedTime < particle.GetComponent<ParticlePosition>().disappearAfter){
 //				if(particle.GetComponent<ParticlePosition>().shouldAppear){
 					particle.GetComponent<Renderer>().enabled = true;
-//				}
-			} else if(elapsedTime > particle.GetComponent<ParticlePosition>().disappearAfter){
+                    particle.GetComponent<SphereCollider>().enabled = true;
+                //				}
+            } else if(elapsedTime > particle.GetComponent<ParticlePosition>().disappearAfter){
 //				if(particle.GetComponent<ParticlePosition>().shouldDisappear){
 					particle.GetComponent<Renderer>().enabled = false;
-//				}
-			}
+                    particle.GetComponent<SphereCollider>().enabled = false;
+                //				}
+            }
 
 //            if (particle.GetComponent<ParticlePosition>().shouldAppear && elapsedTime >= particle.GetComponent<ParticlePosition>().appearAfter)
 //            {
@@ -151,11 +155,13 @@ public class TimeManipulation : MonoBehaviour {
 		foreach (GameObject pro in protonSubs) {
 			if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime >= pro.GetComponent<SubparticlePosition>().disappearAfter) {
 				pro.GetComponent<Renderer>().enabled = false;
-			}
-			else if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime < pro.GetComponent<SubparticlePosition>().disappearAfter) {
+                pro.GetComponent<SphereCollider>().enabled = false;
+            }
+            else if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime < pro.GetComponent<SubparticlePosition>().disappearAfter) {
 				pro.GetComponent<Renderer>().enabled = true;
-			}
-		}
+                pro.GetComponent<SphereCollider>().enabled = true;
+            }
+        }
 
         if (isPlaying)
         {
