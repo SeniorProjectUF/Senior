@@ -107,11 +107,13 @@ public class TimeManipulation : MonoBehaviour {
 		foreach (GameObject proton in protons) {
             if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime >= proton.GetComponent<ParticlePosition>().disappearAfter) {
 				proton.GetComponent<Renderer>().enabled = false;
-				//foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
-				//	r.enabled = false;
+                proton.GetComponent<SphereCollider>().enabled = false;
+                //foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
+                //	r.enabled = false;
             }
             else if (proton.GetComponent<ParticlePosition>().shouldDisappear && elapsedTime < proton.GetComponent<ParticlePosition>().disappearAfter) {
 				proton.GetComponent<Renderer>().enabled = true;
+                proton.GetComponent<SphereCollider>().enabled = true;
                 //foreach (Renderer r in proton.GetComponentsInChildren<Renderer>())
                 //	r.enabled = true;
             }
