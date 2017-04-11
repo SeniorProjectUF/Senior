@@ -84,6 +84,12 @@ public class HandlePointer : MonoBehaviour {
                         infoBox.GetComponent<Text>().text = "This is a z boson";
                     }
                     break;
+                case "Transparent (Instance)":
+                    foreach (GameObject infoBox in InfoBoxes)
+                    {
+                        infoBox.GetComponent<Text>().text = "This is a proton";
+                    }
+                    break;
                 default:
                     foreach (GameObject infoBox in InfoBoxes)
                     {
