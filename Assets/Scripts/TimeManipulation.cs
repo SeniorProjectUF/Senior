@@ -19,6 +19,7 @@ public class TimeManipulation : MonoBehaviour {
     private GameObject[] protons;
     private GameObject[] subparticles;
     private GameObject[] protonSubs;
+    private GameObject[] protonSubsCopy;
     private ButtonEvents leftButtons;
     private ButtonEvents rightButtons;
     // Use this for initialization
@@ -61,6 +62,7 @@ public class TimeManipulation : MonoBehaviour {
         protons = GameObject.FindGameObjectsWithTag ("Proton");
 		subparticles = GameObject.FindGameObjectsWithTag ("Particle");
 		protonSubs = GameObject.FindGameObjectsWithTag ("ProtonSub");
+        protonSubsCopy = GameObject.FindGameObjectsWithTag("ProtonSubCopy");
     }
 	
 	// Update is called once4 per frame
@@ -154,16 +156,31 @@ public class TimeManipulation : MonoBehaviour {
             multiplier.GetComponent<Text>().text = timeMultiplier + "x";
         }
 
-		foreach (GameObject pro in protonSubs) {
-			if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime >= pro.GetComponent<SubparticlePosition>().disappearAfter) {
-				pro.GetComponent<Renderer>().enabled = false;
+		foreach (GameObject proCopy in protonSubsCopy) {
+			if (proCopy.GetComponent<FakeSubparticlePosition>().shouldDisappear && elapsedTime >= proCopy.GetComponent<FakeSubparticlePosition>().disappearAfter) {
+                proCopy.GetComponent<Renderer>().enabled = false;
+                proCopy.GetComponent<SphereCollider>().enabled = false;
+            }
+            else if (proCopy.GetComponent<FakeSubparticlePosition>().shouldDisappear && elapsedTime < proCopy.GetComponent<FakeSubparticlePosition>().disappearAfter) {
+                proCopy.GetComponent<Renderer>().enabled = true;
+                proCopy.GetComponent<SphereCollider>().enabled = true;
+            }
+        }
+
+        foreach (GameObject pro in protonSubs)
+        {
+            if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime >= pro.GetComponent<SubparticlePosition>().disappearAfter)
+            {
+                pro.GetComponent<Renderer>().enabled = false;
                 pro.GetComponent<SphereCollider>().enabled = false;
             }
-            else if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime < pro.GetComponent<SubparticlePosition>().disappearAfter) {
-				pro.GetComponent<Renderer>().enabled = true;
+            else if (pro.GetComponent<SubparticlePosition>().shouldDisappear && elapsedTime < pro.GetComponent<SubparticlePosition>().disappearAfter)
+            {
+                pro.GetComponent<Renderer>().enabled = true;
                 pro.GetComponent<SphereCollider>().enabled = true;
             }
         }
+
 
         if (isPlaying)
         {

@@ -12,6 +12,7 @@ public class ButtonEvents : MonoBehaviour {
     public bool increaseMultiplier = false;
     public bool decreaseMultiplier = false;
     public bool triggerPressed = false;
+    public bool menuPressed = false;
 
     void Awake()
     {
@@ -36,11 +37,18 @@ public class ButtonEvents : MonoBehaviour {
         decreaseMultiplier = false;
         centerPressed = false;
         triggerPressed = false;
+        menuPressed = false;
 
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
         {
             print("Trigger pressed");
             triggerPressed = true;
+        }
+
+        if (device.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
+        {
+            print("menu pressed");
+            menuPressed = true;
         }
 
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
@@ -50,7 +58,7 @@ public class ButtonEvents : MonoBehaviour {
             // If at center of touchpad
             if (touchpad.y < 0.7 && touchpad.y > -0.7 && touchpad.x < 0.7 && touchpad.x > -0.7)
             {
-                print("in center");
+                //print("in center");
                 centerPressed = true;
             }
 
@@ -83,7 +91,7 @@ public class ButtonEvents : MonoBehaviour {
         if (device.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
         {
             Vector2 touchpad = (device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0));
-            print("Pressing Touchpad");
+            //print("Pressing Touchpad");
 
             if (touchpad.x > 0.7f)
             {
